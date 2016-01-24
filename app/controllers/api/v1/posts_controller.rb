@@ -8,7 +8,7 @@ class Api::V1::PostsController < Api::V1::BaseController
   end
 
   def create
-    @post = Post.new(title: params[:title], content: params[:content])
+    @post = Post.new(post_params)
     if @post.save
       flash[:notice] = "Post创建成功"
     else

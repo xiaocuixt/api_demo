@@ -50,5 +50,3 @@ gem 'multi_json'
 
 gem 'apipie-rails'
 
-gem 'rest-client', '~> 1.8'
-

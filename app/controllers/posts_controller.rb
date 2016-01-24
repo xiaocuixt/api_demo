@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    conn = Faraday.new("http://localhost:3000")
+    conn = Faraday.new("http://139.196.38.11:4000/")
     begin
       conn.post '/api/v1/posts', { :title => params[:post][:title], :content => params[:post][:content] },{ 'X-Accept' => 'application/json' }
     rescue Exception => e
