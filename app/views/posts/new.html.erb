@@ -1,0 +1,16 @@
+<%= form_tag posts_path, method: :post do %>
+  <table>
+    <tr>
+      <th>标题</th>
+      <td><%= text_field_tag "post[title]" %></td>
+    </tr>
+    <tr>
+      <th>内容</th>
+      <td><%= text_area_tag "post[content]" %></td>
+    </tr>
+    <tr>
+      <th></th>
+      <td><%= submit_tag %></td>
+    </tr>
+  </table>
+<% end %>
