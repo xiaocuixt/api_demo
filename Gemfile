@@ -50,3 +50,6 @@ gem 'multi_json'
 
 gem 'apipie-rails'
 
+gem 'devise'
+gem 'simple_token_authentication', '~> 1.0'
+

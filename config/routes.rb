@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :admins
   resources :products
+  resources :sessions, only: [:new, :create]
   apipie
   resources :posts, only: [:index, :new, :create]
   namespace :api do

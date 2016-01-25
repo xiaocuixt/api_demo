@@ -1,0 +1,13 @@
+<ul>
+  <%= form_tag sessions_path do %>
+    <li>
+      <%= label_tag "邮箱"%>
+      <%= text_field_tag "admin[email]"  %>
+    </li>
+     <li>
+      <%= label_tag "密码"%>
+      <%= text_field_tag "admin[password]"  %>
+    </li>
+    <%= submit_tag "登录" %>
+  <% end %>
+</ul>

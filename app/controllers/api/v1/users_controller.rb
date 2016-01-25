@@ -1,5 +1,4 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :authenticate_user!, only: [:update]
   api :GET, '/users/:id'
   param :id, :number
 
