@@ -1,9 +1,8 @@
 class Api::V1::BaseController < ApplicationController
   # disable the CSRF token
-  protect_from_forgery with: :null_session
+  #protect_from_forgery with: :null_session
 
-  acts_as_token_authentication_handler_for Admin
-  before_filter :authenticate_admin!
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
   attr_accessor :current_user
 
@@ -14,6 +13,9 @@ class Api::V1::BaseController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   attr_accessor :current_user
+
+  acts_as_token_authentication_handler_for Admin
+  before_filter :authenticate_admin!
 
   def destroy_session
     request.session_options[:skip] = true
