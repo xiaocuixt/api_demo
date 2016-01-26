@@ -16,7 +16,10 @@ class Api::V1::SessionController < Devise::SessionsController
         return invalid_login_attempt unless resource
 
         if resource.valid_password?(params[:admin][:password])
-          render :json => { admin: { email: resource.email, :auth_token => resource.authentication_token } }, success: true, status: :created
+          p "xxxxxxxxx"
+          resource.ensure_authentication_token!
+          render :json => { email: resource.email, :auth_token => resource.authentication_token }, success: true, status: :created
+          return
           #render :json=> {:success=>true, :auth_token=>resource.authentication_token, :email=>resource.email}
         else
           invalid_login_attempt
@@ -31,15 +34,15 @@ class Api::V1::SessionController < Devise::SessionsController
 
   #http://soryy.com/blog/2014/apis-with-devise/
 
-  #curl -i -X POST -d -H "Content-Type: application/jsoni" "admin[email]=cjw624923@126.com&admin[password]=12345678" http://localhost:3000/api/v1/sign_in
+  #curl -i -X POST -d "admin[email]=cjw624923@126.com&admin[password]=12345678" http://localhost:3000/api/v1/sign_in
 
   def destroy
   end
 
   protected
   def ensure_params_exist
-    return unless params[:admin][:email].blank?
-    render :json=>{:success=>false, :message=>"missing user_login parameter"}, :status=>422
+    return unless params[:admin].blank?
+    render :json=>{:success=>false, :message=>"missing admin parameter"}, :status=>422
   end
 
   def invalid_login_attempt
