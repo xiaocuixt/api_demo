@@ -1,4 +1,7 @@
 class Post < ActiveRecord::Base
+  validates :title, presence: true
+  validates :content, presence: true
+
   #使用Faraday
   def self.get_data_from_url
     conn = Faraday.new(:url => 'http://139.196.38.11:4000/') do |faraday|

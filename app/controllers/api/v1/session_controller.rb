@@ -12,25 +12,33 @@ class Api::V1::SessionController < Devise::SessionsController
         super
       }
       format.json {
-        resource = Admin.find_for_database_authentication(:email=>params[:admin][:email])
+        resource = Admin.find_for_database_authentication(:email => params[:admin][:email])
         return invalid_login_attempt unless resource
 
         if resource.valid_password?(params[:admin][:password])
-          sign_in("user", resource)
-          render :json=> {:success=>true, :auth_token=>resource.authentication_token, :email=>resource.email}
-          return
+          render :json => { admin: { email: resource.email, :auth_token => resource.authentication_token } }, success: true, status: :created
+          #render :json=> {:success=>true, :auth_token=>resource.authentication_token, :email=>resource.email}
+        else
+          invalid_login_attempt
         end
-        invalid_login_attempt
       }
     end
   end
+
+  # def sign_in(user)
+  #   header('Authorization', "Token token=\"#{user.authentication_token}\", email=\"#{user.email}\"")
+  # end
+
+  #http://soryy.com/blog/2014/apis-with-devise/
+
+  #curl -i -X POST -d -H "Content-Type: application/jsoni" "admin[email]=cjw624923@126.com&admin[password]=12345678" http://localhost:3000/api/v1/sign_in
 
   def destroy
   end
 
   protected
   def ensure_params_exist
-    return unless params[:admin].blank?
+    return unless params[:admin][:email].blank?
     render :json=>{:success=>false, :message=>"missing user_login parameter"}, :status=>422
   end
 

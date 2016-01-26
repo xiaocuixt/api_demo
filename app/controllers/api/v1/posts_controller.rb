@@ -1,24 +1,17 @@
 class Api::V1::PostsController < Api::V1::BaseController
-  acts_as_token_authentication_handler_for Admin
+  #acts_as_token_authentication_handler_for Admin
   respond_to :json
 
   def index
-    @posts = Post.all
-    respond_with @posts
+    respond_with @posts = Post.all
   end
 
   def new
+    respond_with @book = Post.new
   end
 
   def create
-    @post = Post.new(post_params)
-    if @post.save
-      flash[:notice] = "Post创建成功"
-      respond_with @post, location: url_for([:api, :v1, @post])
-    else
-      flash[:error] = "Post创建失败"
-      respond_with @post, location: url_for([:api, :v1, @post])
-    end
+    respond_with @post = Post.create(post_params)
   end
 
   private

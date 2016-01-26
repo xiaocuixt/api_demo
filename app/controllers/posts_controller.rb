@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  respond_to :json
 
   def index
     @posts = Post.get_data_from_url
@@ -13,7 +14,7 @@ class PostsController < ApplicationController
       conn.post '/api/v1/posts', { :title => params[:post][:title], :content => params[:post][:content] },{ 'X-Accept' => 'application/json' }
       redirect_to new_post_path
     rescue Exception => e
-      flash[:error] = "创建失败"
+      puts "#{e.message}"
     end
   end
 end
