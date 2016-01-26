@@ -46,10 +46,11 @@ group :development do
 end
 
 gem 'faraday', '~> 0.9.2'
-gem 'multi_json'
+gem 'faraday_middleware', '~> 0.10.0'
 
 gem 'apipie-rails'
 
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
 
+#gem "her"  将返回的json转化为orm对象，使用User.find 1 方法
