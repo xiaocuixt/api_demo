@@ -19,8 +19,11 @@ class Post < ActiveRecord::Base
   end
 
   def self.generate_data_from_url hash={}
-    conn = Faraday.new("http://xiaocuixt.ngrok.cc/")
-    conn.post '/api/v1/posts', hash
-    redirect_to new_post_url and return
+    begin
+      conn = Faraday.new("http://139.196.38.11:4000/")
+      conn.post '/api/v1/posts', hash
+    rescue Exception => e
+      puts "#{e.message}"
+    end
   end
 end

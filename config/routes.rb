@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root "home#index"
   devise_for :admins
   resources :products
   resources :sessions, only: [:new, :create]
