@@ -4,23 +4,22 @@ class Api::V1::SessionController < Devise::SessionsController
   include Devise::Controllers::Helpers
 
   respond_to :json
-  before_filter :ensure_params_exist
-
   def create
+    # self.resource = warden.authenticate!(auth_options)
+    # set_flash_message(:notice, :signed_in) if is_flashing_format?
+    # sign_in(resource_name, resource)
+    # yield resource if block_given?
+    # respond_with resource, location: after_sign_in_path_for(resource)
     respond_to do |format|
       format.html {
         super
       }
       format.json {
-        resource = Admin.find_for_database_authentication(:email => params[:admin][:email])
+        resource = Admin.find_for_database_authentication(:email => params[:email])
         return invalid_login_attempt unless resource
-
-        if resource.valid_password?(params[:admin][:password])
-          p "xxxxxxxxx"
-          resource.ensure_authentication_token!
-          render :json => { email: resource.email, :auth_token => resource.authentication_token }, success: true, status: :created
-          return
-          #render :json=> {:success=>true, :auth_token=>resource.authentication_token, :email=>resource.email}
+        if resource.valid_password?(params[:password])
+          #resource.ensure_authentication_token!
+          render :json => { :email => resource.email, :authentication_token => resource.authentication_token }, success: true, status: :created
         else
           invalid_login_attempt
         end
@@ -40,10 +39,6 @@ class Api::V1::SessionController < Devise::SessionsController
   end
 
   protected
-  def ensure_params_exist
-    return unless params[:admin].blank?
-    render :json=>{:success=>false, :message=>"missing admin parameter"}, :status=>422
-  end
 
   def invalid_login_attempt
     warden.custom_failure!

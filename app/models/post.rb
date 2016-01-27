@@ -7,7 +7,6 @@ class Post < ActiveRecord::Base
     conn = Faraday.new(:url => 'http://139.196.38.11:4000/') do |faraday|
       faraday.request  :url_encoded             # form-encode POST params
       faraday.response :logger                  # log requests to STDOUT
-      faraday.response :json
       faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
     response = conn.get do |req|

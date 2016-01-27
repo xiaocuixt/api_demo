@@ -17,4 +17,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :api do
+    namespace :v2 do
+      resources :sessions, only: [:index, :create, :show, :update, :destroy]
+      resources :users
+    end
+  end
 end

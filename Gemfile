@@ -46,7 +46,6 @@ group :development do
 end
 
 gem 'faraday', '~> 0.9.2'
-gem 'faraday_middleware', '~> 0.10.0'
 
 gem 'apipie-rails'
 
