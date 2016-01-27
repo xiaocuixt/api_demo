@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "home#index"
   devise_for :admins
   resources :products
-  resources :sessions, only: [:new, :create]
+  resources :sessions, only: [:new, :create, :destroy]
   apipie
   resources :posts, only: [:index, :new, :create]
   namespace :api do
