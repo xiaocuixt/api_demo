@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    p current_admin.email
+    p current_admin["email"]
   end
 
   def create
