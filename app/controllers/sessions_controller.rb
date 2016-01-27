@@ -4,8 +4,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    #conn = Faraday.new("http://139.196.38.11:4000/")
-    conn = Faraday.new("http://xiaocuixt.ngrok.cc/")
+    conn = Faraday.new("http://139.196.38.11:4000/")
+    #conn = Faraday.new("http://xiaocuixt.ngrok.cc/")
     response = conn.post '/api/v1/sign_in', { :email => params[:admin][:email], :password => params[:admin][:password] }, {'Accept' => 'application/json'}
     response_body = JSON.parse(response.body)
     session[:authentication_token] = response_body["authentication_token"]
