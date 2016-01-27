@@ -1,14 +1,18 @@
 class Api::V1::UsersController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for Admin
 
-  api :GET, '/users/:id'
-  param :id, :number
+  api :GET, '/api/v1/users/:id', "用户详情页面"
+  param :user, Hash do
+    param :id, :number, "用户ID"
+    param :email, String, "用户email"
+    param :password, String, "用户password"
+  end
 
   def show
     @user = User.find(params[:id])
   end
 
-  api :PUT, '/users'
+  api :PUT, '/api/v1/user', :id => "用户ID", :required => true
   param :id, :number
 
   def update

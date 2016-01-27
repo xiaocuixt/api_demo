@@ -3,13 +3,15 @@ class Api::V1::SessionController < Devise::SessionsController
   prepend_before_filter :require_no_authentication, :only => [:create ]
   include Devise::Controllers::Helpers
 
+  acts_as_token_authentication_handler_for Admin
+
   respond_to :json
+
+  api :POST, '/api/v1/sign_in', :email => "用户邮箱", :password => "用户密码", :required => true
+  param :email, String, :desc => "登录邮箱", :required => true
+  param :password, String, :desc => "登录密码", :required => true
+
   def create
-    # self.resource = warden.authenticate!(auth_options)
-    # set_flash_message(:notice, :signed_in) if is_flashing_format?
-    # sign_in(resource_name, resource)
-    # yield resource if block_given?
-    # respond_with resource, location: after_sign_in_path_for(resource)
     respond_to do |format|
       format.html {
         super
@@ -18,8 +20,8 @@ class Api::V1::SessionController < Devise::SessionsController
         resource = Admin.find_for_database_authentication(:email => params[:email])
         return invalid_login_attempt unless resource
         if resource.valid_password?(params[:password])
-          #resource.ensure_authentication_token!
-          render :json => { :email => resource.email, :authentication_token => resource.authentication_token }, success: true, status: :created
+          sign_in("admin", resource)
+          render :json => { :current_admin => current_admin, :email => resource.email, :authentication_token => resource.authentication_token }, success: true, status: :created
         else
           invalid_login_attempt
         end
@@ -36,6 +38,7 @@ class Api::V1::SessionController < Devise::SessionsController
   #curl -i -X POST -d "admin[email]=cjw624923@126.com&admin[password]=12345678" http://localhost:3000/api/v1/sign_in
 
   def destroy
+    sign_out(resource_name)
   end
 
   protected

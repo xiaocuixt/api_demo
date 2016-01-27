@@ -1,9 +1,11 @@
 class ProductsController < ApplicationController
+  before_filter :check_admin_auth!
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
   # GET /products.json
   def index
+    p current_admin["email"]
     @products = Product.all
   end
 

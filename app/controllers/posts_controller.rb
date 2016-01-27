@@ -1,11 +1,13 @@
 class PostsController < ApplicationController
-  respond_to :json
+  before_filter :check_admin_auth!
 
   def index
+    p current_admin["email"]
     @posts = Post.get_data_from_url
   end
 
   def new
+    p current_admin.email
   end
 
   def create
